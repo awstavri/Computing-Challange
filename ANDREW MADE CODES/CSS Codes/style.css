@@ -1,0 +1,69 @@
+html{
+  font-family: Arial, sans-serif;
+}
+
+main {
+  position: relative;
+  background-color: lightyellow;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+body {
+  background-color: lightyellow;
+  margin: 0;
+}
+
+.answer {
+  font-family: "Courier New", Courier, monospace;
+}
+
+h1 {
+  font-family: Impact, sans-serif;
+}
+
+p {
+  color: black;
+}
+
+.question {
+  background-color: gray;
+  color: white;
+  padding: 3px;
+  border-top: 5px solid red;
+  border-right: 5px double green;
+  border-bottom: 5px dashed blue;
+  border-left: 5px groove orange;
+}
+
+#hint {
+  border: 2px dotted red;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  padding: 10px 15px;
+  margin: 10px 10px 10px 10px;
+  background-color: yellow;
+}
+
+footer {
+  text-align: right;
+}
+
+header, footer {
+  background-color: darkcyan;
+  color: white;
+  padding: 5px  5px 5px 5px;
+
+
+}
+small {
+  font-size: 11px;
+}
+
+
+
+
+
+
+/* This is a CSS comment */
