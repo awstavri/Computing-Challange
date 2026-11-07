@@ -84,6 +84,93 @@ console.log(add2(1,2, 3));
 console.log(add2(4, 1));
 console.log(add2(4, 2, 2));
 
+let symbol = "#";
+
+for (let i = 1; i <=7; i++) {
+  console.log(symbol.repeat(i));
+}
+
+console.log("Checkpoint");
+
+
+// By Three3
+// • 3, 6, 9
+// • 12, 15, 18
+// • 21, 24, 27, 30
+// • 33, 36, 39
+// • 42, 45, 48
+// • 51, 54, 57, 60
+// • 63, 66, 69
+// • 72, 75, 78
+// • 84, 87, 90
+// • 93, 96, 99
+
+// By Five5
+//• 5, 10, 15, 20
+// • 25, 30, 35, 40
+// • 45, 50, 55, 60
+// • 65, 70, 75, 80
+// • 85, 90, 95, 100
+
+for (let i = 0; i <= 100; i++) {
+  if (i % 3 === 0 && i % 5 === 0) {
+    console.log("FizBuzz");
+  }
+  else if (i % 3 === 0){
+    console.log("Fiz");
+  }
+  else if (i % 5 === 0) {
+    console.log("Buzz");
+  }
+  else {
+    console.log(i);
+  }
+}
+console.log("Checkpoint");
+
+let board = ""; // This will hold our entire chessboard text
+
+for (let row = 0; row < 8; row++) {
+  for (let col = 0; col < 8; col++) {
+    // If the row + col is even, add a space. Otherwise, add a #
+    if ((row + col) % 2 === 0) {
+      board += " ";
+    } else {
+      board += "#";
+    }
+  }
+  // After finishing a row, add a newline character to go down
+  board += "\n";
+}
+
+console.log(board);
+
+console.log("Checkpoint");
+
+console.log(Math.min(0,10));
+console.log(Math.min(-10,0));
+
+console.log("Checkpoint");
+
+function isEven(number) {
+  if (number % 2 === 0) {
+    return true;
+  }
+  else if (number % 2 === 1) {
+    return false;
+  }
+  else {
+    return isEven(number - 2);
+  }
+}
+
+console.log(isEven(50))
+console.log(isEven(75));
+
+console.log("Checkpoint");
+
+console.log(sum(range(1,10)));
+
 
 
 

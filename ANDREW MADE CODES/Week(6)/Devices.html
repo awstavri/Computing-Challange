@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Devices</title>
+    </head>
+    <body>
+    <p id="demo"></p>
+    <script>
+        let demoElement = document.getElementById("demo");
+        demoElement.innerHTML = "Hello World";
+        demoElement.style.fontSize = "60px";
+        demoElement.style.color = "red";
+        demoElement.style.backgroundColor = "lightgreen";
+        demoElement.style.textAlign = "center";
+        demoElement.style.margin = 50;
+        console.log("Terror");
+    </script>
+
+    <p>Band:</p>
+    <select id="brandOption" class="list"></select>
+
+    <p>Device:</p>
+    <select id="deviceOption" class="list"></select>
+
+    <script>
+        let listElements = document.getElementsByClassName("list");
+        listElements[0].style.border = "2px solid blue";
+        listElements[1].style.border = "2px solid blue";
+    </script>
+
+    </body>
+</html>
