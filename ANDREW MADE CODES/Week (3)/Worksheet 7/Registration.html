@@ -7,10 +7,21 @@
 <body>
 <h1>Registration Page</h1>
 
-<form name="registration form" id="registration form"></form>
+<form name="registration form" id="registration form" method="post">
+    <p>First Name:</p>
+    <p><input id="firstname" type="text" required></p>
+    <p>Last Name:</p>
+    <p><input id="lastname" type="text" required></p>
+    <p>Student ID:</p>
+    <p><input id="id" type="number" required></p>
+    <p>Your Height in Meters:</p>
+    <p><input id="height" type="number">(Optional)</p>
+    <p><input id="submit" type="submit"></p>
+</form>
 
 <!--
 In your form, create add following input elements:
+
 o First name (text, required)
 o Last name (text, required)
 o Student ID (number, required)
