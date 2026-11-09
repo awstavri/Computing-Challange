@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+</head>
+<body>
+<h1>Login Form</h1>
+
+<!-- 1. Add onsubmit to the form tag. onSubmit() runs the function, return false stops the reload -->
+<form id="loginForm" name="loginForm" onsubmit="onSubmit(); return false;">
+    <p>Username: <input id="username" name="username" type="text" required></p>
+    <p>Password: <input id="password" name="password" type="password" required></p>
+    <p><input type="submit" value="Log in"></p>
+</form>
+
+<script>
+    // 2. Create the function
+    function onSubmit() {
+        // Get values and make them lowercase
+        let username = document.getElementById("username").value.toLowerCase();
+        let password = document.getElementById("password").value.toLowerCase();
+
+        // 3. Check if the password includes the username
+        if (password.includes(username)) {
+            alert("The password may not contain your username.");
+        } else {
+            alert("OK");
+        }
+    }
+</script>
+
+</body>
+</html>
