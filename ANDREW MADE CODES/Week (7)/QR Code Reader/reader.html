@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Reader</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: sans-serif; }
+        #preview-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            border: 2px solid black;
+            display: none; /* Initially hidden */
+        }
+        #preview {
+            width: 100%;
+            height: 100%;
+        }
+        #content {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: black;
+            color: white;
+            text-align: center;
+            width: 400px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+        #controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 1em;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>QR Code Reader</h1>
+
+<div id="controls">
+    <button id="scan-button">Scan QR Code</button>
+    <button id="stop-button" style="display: none;">Stop Scanner</button>
+    <button id="switch-camera-button" style="display: none;">Switch Camera</button>
+</div>
+
+<div id="preview-container">
+    <video id="preview"></video>
+</div>
+
+<div id="content">Ready to scan.</div>
+
+<!-- 1. Import the InstaScan library -->
+<script src="js/instascan.min.js"></script>
+
+<!-- 2. All custom JavaScript goes here -->
+<script type="text/javascript">
+    // Get references to the HTML elements we'll need to interact with
+    const scanButton = document.getElementById('scan-button');
+    const stopButton = document.getElementById('stop-button');
+    const switchCameraButton = document.getElementById('switch-camera-button');
+    const previewContainer = document.getElementById('preview-container');
+    const contentDiv = document.getElementById('content');
+    const videoElement = document.getElementById('preview');
+
+    // These variables will hold the scanner and the list of available cameras
+    let scanner = null;
+    let cameras = [];
+    let currentCameraIndex = 0;
+
+    // This function is called when the "Scan QR Code" button is clicked.
+    // It sets up and starts the scanner.
+    function startScanner() {
+        // 3. Create the scanner options object as per the worksheet
+        const opts = {
+            continuous: true, // Keep scanning for QR codes
+            video: videoElement, // The <video> element for the camera feed
+            mirror: true, // Mirror the camera feed (useful for front cameras)
+            captureImage: false,
+            backgroundScan: true,
+            refractoryPeriod: 1500, // Wait 1.5 seconds before scanning the same code again
+            scanPeriod: 1
+        };
+
+        // 4. Create a new scanner instance
+        scanner = new Instascan.Scanner(opts);
+
+        // 5. Add the listener to handle a successful scan
+        scanner.addListener('scan', function (content) {
+            console.log("Scanned content:", content);
+            contentDiv.innerHTML = "Scanned Result:<br><strong>" + content + "</strong>";
+
+            // CHALLENGE 1: Hide the scanner and show the initial button again
+            stopScanner();
+        });
+
+        // 6. Find cameras and start the scanner
+        Instascan.Camera.getCameras().then(function (availableCameras) {
+            cameras = availableCameras; // Store the list of cameras
+
+            if (cameras.length > 0) {
+                // By default, try to use the back camera if there is more than one
+                if (cameras.length > 1) {
+                    currentCameraIndex = cameras.length - 1;
+                } else {
+                    currentCameraIndex = 0;
+                }
+
+                scanner.start(cameras[currentCameraIndex]);
+
+                // Update UI to show the scanner is active
+                previewContainer.style.display = 'block';
+                scanButton.style.display = 'none';
+                stopButton.style.display = 'inline-block';
+
+                // CHALLENGE 2: Show the switch camera button only if there's more than one camera
+                if (cameras.length > 1) {
+                    switchCameraButton.style.display = 'inline-block';
+                } else {
+                    switchCameraButton.style.display = 'none';
+                }
+            } else {
+                // Handle the case where no cameras are found
+                console.error('No cameras found.');
+                alert("No cameras found. Please ensure your device has a camera and you've granted permission.");
+            }
+        }).catch(function (e) {
+            // Handle any errors during camera enumeration
+            console.error(e);
+            alert("Error accessing cameras: " + e);
+        });
+    }
+
+    // This function stops the scanner and resets the UI
+    function stopScanner() {
+        if (scanner) {
+            scanner.stop();
+        }
+        previewContainer.style.display = 'none';
+        scanButton.style.display = 'inline-block';
+        stopButton.style.display = 'none';
+        switchCameraButton.style.display = 'none';
+    }
+
+    // CHALLENGE 2: This function is called when "Switch Camera" is clicked
+    function switchCamera() {
+        if (cameras.length < 2 || !scanner) return; // Do nothing if there are fewer than 2 cameras
+
+        // Calculate the index of the next camera
+        currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+
+        // Stop the current stream and start the new one
+        scanner.stop();
+        scanner.start(cameras[currentCameraIndex]);
+
+        contentDiv.textContent = "Switched to camera: " + (cameras[currentCameraIndex].name || 'Camera ' + (currentCameraIndex + 1));
+    }
+
+    // Add click event listeners to the buttons
+    scanButton.addEventListener('click', startScanner);
+    stopButton.addEventListener('click', stopScanner);
+    switchCameraButton.addEventListener('click', switchCamera);
+
+</script>
+</body>
+</html>

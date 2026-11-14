@@ -2,22 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Challanges</title>
-
+    <title>Challenges</title>
 </head>
 <body>
 
-<h1>All Challanges</h1>
+<h1>All Challenges</h1>
 
-<ul id="challanges"></ul>
+<!-- The empty list where the challenges will appear -->
+<ul id="challenges"></ul>
 
 <script>
-    let ul = document.getElementsById;
-    fetch("https://codecyprus.org/th/api/list")
-        .then(response => response.json()) //Parse JSON text to JavaScript object
-        .then(jsonObject => {
-            console.log(jsonObject); //TODO - Success, do something with the data.
-        });</script>
+    // Step 1: Get the list element by its ID
+    let challengesList = document.getElementById("challenges");
+
+    // Step 2: Create the function that fetches the data
+    function getChallenges() {
+
+        // We use ?include-finished to get active and finished hunts
+        fetch("https://codecyprus.org/th/api/list?include-finished")
+            .then(response => response.json())
+            .then(jsonObject => {
+
+                // Step 3: Get the array of hunts from the JSON object
+                let treasureHuntsArray = jsonObject.treasureHunts;
+
+                // Step 4: Loop through each hunt
+                for (let i = 0; i < treasureHuntsArray.length; i++) {
+
+                    // a. Create a new list item
+                    let listItem = document.createElement("li");
+
+                    // b. Get the name and UUID (unique ID) of the current hunt
+                    let huntName = treasureHuntsArray[i].name;
+                    let huntUUID = treasureHuntsArray[i].uuid;
+
+                    // c. Build the URL for the "start" service
+                    // We insert your player name, app name, and the specific hunt UUID
+                    let startURL = "https://codecyprus.org/th/api/start?player=Awstavri&app=AwstavriApp&treasure-hunt-id=" + huntUUID;
+
+                    // d. Set the innerHTML to a clickable hyperlink
+                    listItem.innerHTML = "<a href='" + startURL + "'>" + huntName + "</a>";
+
+                    // e. Append the list item to the webpage
+                    challengesList.appendChild(listItem);
+                }
+            });
+    }
+
+    // Step 5: Call the function so it runs when the page loads
+    getChallenges();
+</script>
 
 </body>
 </html>
